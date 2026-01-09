@@ -46,10 +46,14 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
         if (token){
             try {
-                await axios.post(backendUrl + '/api/cart/add',{itemId,size},{headers:{token}});
+                await axios.post(backendUrl + '/api/cart/add',{itemId,size},  {
+                     headers: {
+                        Authorization: `Bearer ${token}`
+                                       }
+                                            });
             } catch (error) {
                 console.log(error)
-                toast.error(error.message)
+                // toast.error(error.message)
             }
         }
 
@@ -72,10 +76,14 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
         if(token){
             try {
-                await axios.post(backendUrl + '/api/cart/update',{itemId,size,quantity}, {headers:{token}} )
+                await axios.post(backendUrl + '/api/cart/update',{itemId,size,quantity},   {
+                                     headers: {
+                                       Authorization: `Bearer ${token}`
+                                                       }
+                                                        } )
             } catch (error) {
                     console.log(error)
-                    toast.error(error.message)
+                    // toast.error(error.message)
             }
         }
     };
@@ -109,12 +117,12 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
           if(response.data.success){
             setProducts(response.data.products)
           }else{
-            toast.error(response.data.message)
+            // toast.error(response.data.message)
           }
             
         } catch (error) {
             console.log(error)
-            toast.error(error.message)
+            // toast.error(error.message)
             
         }
     }
@@ -122,14 +130,18 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const getUserCart=async(token)=>{
         try {
 
-            const response=await axios.post(backendUrl + '/api/cart/get',{},{headers:{token}})
+            const response=await axios.post(backendUrl + '/api/cart/get',{},  {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
             if(response.data.success){
                 setCartItems(response.data.cartData)
             }
             
         } catch (error) {
               console.log(error)
-            toast.error(error.message)
+            // toast.error(error.message)
             
         }
     }

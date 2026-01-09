@@ -215,9 +215,3 @@ const singleProduct= async(req,res)=>{
 }
 
 export {listProduct,addProduct,singleProduct,removeProduct};
-
-
-
-
-
-

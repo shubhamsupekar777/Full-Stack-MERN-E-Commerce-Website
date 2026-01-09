@@ -12,7 +12,7 @@
 
 //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-//     // ✅ Adjust to check specific fields from token payload
+//     //  Adjust to check specific fields from token payload
 //     if (
 //       decoded.email !== process.env.ADMIN_EMAIL ||
 //       decoded.password !== process.env.ADMIN_PASSWORD
@@ -20,7 +20,7 @@
 //       return res.status(401).json({ success: false, message: "Not Authorized. Invalid Admin." });
 //     }
 
-//     // ✅ Passed: proceed
+//     //  Passed: proceed
 //     req.admin = decoded;
 //     next();
 

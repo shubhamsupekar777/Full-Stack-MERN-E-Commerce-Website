@@ -15,22 +15,46 @@ const Orders = () => {
         return null;
 
       }
-      const response=await axios.post(backendUrl+'/api/order/userorders',{},{headers:{token}})
-     if(response.data.success){
-      let allOrderItem=[]
-      response.data.orders.map((order)=>{
-        order.items.map((item)=>{
-          item['status']=order.status;
-          item['payment']=order.payment;
-          item['paymentMethod']=order.paymentMethod;
-          item['date']=order.date;
-          allOrderItem.push(item);
-        })
-      })
-      setOrderData(allOrderItem.reverse());
+      const response=await axios.post(backendUrl+'/api/order/userorders',{},{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  if (response.data.success) {
+  let allOrderItem = [];
+
+  response.data.orders.forEach((order) => {
+    order.items.forEach((item) => {
+      allOrderItem.push({
+        ...item,
+        status: order.status || "Order Placed",
+        payment: order.payment,
+        paymentMethod: order.paymentMethod,
+        date: order.date,
+      });
+    });
+  });
+
+  setOrderData(allOrderItem.reverse());
+}
+
+  //    if(response.data.success){
+  //     let allOrderItem=[]
+  //     response.data.order.items.forEach((item)=>{
+  // allOrderItem.push({
+  //   ...item,
+  //   status: order.status,
+  //   payment: order.payment,
+  //   paymentMethod: order.paymentMethod,
+  //   date: order.date,
+  // });
+
+
+  //     });
+  //     setOrderData(allOrderItem.reverse());
 
       
-     }
+  //    }
       
     } catch (error) {
       
@@ -48,7 +72,7 @@ const Orders = () => {
       <div>
         <div>
           {
-            orderData.slice(1,4).map((item,index)=>(
+            orderData.slice(0,4).map((item,index)=>(
               <div key={index} className='py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
                   <div className='flex items-start gap-6 text-sm'>
                     <img className='w-16 sm:w-20' src={item.image[0]} alt=''/>
