@@ -17,10 +17,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
- const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem("token"):'');
+ const [token, setToken] = useState(localStorage.getItem('adminToken') ? localStorage.getItem('adminToken'):'');
 
  useEffect(() => {
-  if (token) localStorage.setItem('token', token);
+  if (token)  localStorage.setItem('adminToken', token)
 }, [token]);
 
 

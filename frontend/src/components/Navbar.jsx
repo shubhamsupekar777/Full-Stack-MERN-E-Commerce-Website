@@ -35,7 +35,11 @@ const Navbar = () => {
             <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden'/>
         </NavLink>
 
+        <a href={import.meta.env.VITE_ADMIN_URL}>
+  Admin
+</a>
 
+         
 
 
 

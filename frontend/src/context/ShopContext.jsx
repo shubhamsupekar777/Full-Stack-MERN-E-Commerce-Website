@@ -21,43 +21,49 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [token,setToken]=useState('');
     const navigate= useNavigate();
 
-    const addToCart=async(itemId,size)=>{
-        if(!size){
-            toast.error('Select Product Size ');
-            return;
+    const addToCart = async (itemId, size) => {
+
+    if (!size) {
+        toast.error('Select Product Size');
+        return;
+    }
+
+    // 🔴 CHECK LOGIN FIRST
+    if (!token) {
+        toast.error("Please login first");
+        navigate("/login");   // redirect to login page
+        return;
+    }
+
+    let cartData = structuredClone(cartItems);
+
+    if (cartData[itemId]) {
+        if (cartData[itemId][size]) {
+            cartData[itemId][size] += 1;
+        } else {
+            cartData[itemId][size] = 1;
         }
+    } else {
+        cartData[itemId] = {};
+        cartData[itemId][size] = 1;
+    }
 
-        let cartData= structuredClone(cartItems);
+    setCartItems(cartData);
 
-        if(cartData[itemId]){
-            if(cartData[itemId][size]){
-                cartData[itemId][size] +=1;
-
-            }else{
-                cartData[itemId][size]=1;
+    try {
+        await axios.post(
+            backendUrl + '/api/cart/add',
+            { itemId, size },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
-        }
-        else{
-           cartData[itemId]={};
-           cartData[itemId][size]=1;
-
-        }
-        setCartItems(cartData);
-
-        if (token){
-            try {
-                await axios.post(backendUrl + '/api/cart/add',{itemId,size},  {
-                     headers: {
-                        Authorization: `Bearer ${token}`
-                                       }
-                                            });
-            } catch (error) {
-                console.log(error)
-                // toast.error(error.message)
-            }
-        }
-
-    };
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
 
   const getCartCount = () => {
     let totalCount = 0;
