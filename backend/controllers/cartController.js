@@ -34,11 +34,37 @@ const addToCart = async (req, res) => {
       cartData[itemId][size] = 1
     }
 
-    userData.cartData = cartData
-    await userData.save()
+    // userData.cartData = cartData
+    // await userData.save()
 
-    res.json({ success: true, message: "Added to cart" })
+    // res.json({ success: true, message: "Added to cart" })
 
+
+//     console.log("UserId:", userId);
+// console.log("Cart Before Save:", userData.cartData);
+
+// userData.cartData = cartData;
+// await userData.save();
+
+// console.log("Cart After Save:", userData.cartData);
+
+// res.json({
+//   success: true,
+//   message: "Added to cart"
+// });
+
+
+userData.cartData = cartData;
+
+// Tell Mongoose that cartData changed
+userData.markModified("cartData");
+
+await userData.save();
+
+res.json({
+  success: true,
+  message: "Added to cart"
+});
   } catch (error) {
     console.error(error)
     res.status(500).json({ success: false, message: error.message })
@@ -48,9 +74,10 @@ const addToCart = async (req, res) => {
 //update user cart
 const updateCart = async (req, res) => {
   try {
-    const { userId, itemId, size, quantity } = req.body
+    const userId = req.userId;      
+    const { itemId, size, quantity } = req.body;
 
-    const userData = await userModel.findById(userId)
+    const userData = await userModel.findById(userId);
 
     if (!userData) {
       return res.status(404).json({
@@ -64,10 +91,22 @@ const updateCart = async (req, res) => {
     if (!cartData[itemId]) cartData[itemId] = {}
     cartData[itemId][size] = quantity
 
-    userData.cartData = cartData
-    await userData.save()
+    // userData.cartData = cartData
+    // await userData.save()
 
-    res.json({ success: true, message: "Cart updated" })
+    // res.json({ success: true, message: "Cart updated" })
+
+    userData.cartData = cartData;
+
+// Tell Mongoose that cartData changed
+userData.markModified("cartData");
+
+await userData.save();
+
+res.json({
+  success: true,
+  message: "Cart updated"
+});
 
   } catch (error) {
     console.error(error)
@@ -81,7 +120,13 @@ const getUserCart = async (req, res) => {
     // const { userId } = req.body
     const userId = req.userId;
 
-    const userData = await userModel.findById(userId)
+    // const userData = await userModel.findById(userId)
+
+    const userData = await userModel.findById(userId);
+
+// console.log("Mongo Document:");
+// console.log(JSON.stringify(userData, null, 2));
+    // console.log("Fetched Cart:", userData.cartData);
 
     if (!userData) {
       return res.status(404).json({
