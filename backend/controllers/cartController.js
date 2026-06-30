@@ -2,7 +2,8 @@ import userModel from "../models/userModel.js"
     // add products to user cart
 const addToCart = async (req, res) => {
   try {
-    const { userId, itemId, size } = req.body
+    const userId = req.userId; 
+    const {  itemId, size } = req.body
 
     if (!userId || !itemId || !size) {
       return res.status(400).json({
@@ -77,7 +78,8 @@ const updateCart = async (req, res) => {
 //get user cart data 
 const getUserCart = async (req, res) => {
   try {
-    const { userId } = req.body
+    // const { userId } = req.body
+    const userId = req.userId;
 
     const userData = await userModel.findById(userId)
 
