@@ -4,8 +4,8 @@ import { assets } from '../assets/assets'
 const Navbar = ({ setToken }) => {
 
   const logoutHandler = () => {
-    localStorage.removeItem("adminToken")   // remove admin token
-    setToken("")                            // reset state
+    localStorage.removeItem("adminToken")   
+    setToken("")                            
     window.location.replace("http://localhost:5173") // go to frontend home
   }
 
